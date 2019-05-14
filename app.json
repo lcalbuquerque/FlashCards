@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "sdkVersion": "32.0.0",
+    "name": "flashcards",
+    "slug": "flashcards",
+    "version": "0.1.0",
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "description": ""
+  }
+}

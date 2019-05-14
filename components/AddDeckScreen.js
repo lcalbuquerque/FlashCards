@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, TextInput, Text, StyleSheet } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 import { saveDeckTitle } from '../utils/api';
 import { red } from '../utils/colors';
 import { bindActionCreators } from 'redux';

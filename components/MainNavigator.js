@@ -1,24 +1,24 @@
 import { TabNavigator, StackNavigator } from 'react-navigation';
-import { blueDark, blueHighlight, white } from '../utils/colors';
-import DeckListScreen from './DeckListScreen';
-import AddDeckScreen from './AddDeckScreen';
-import AddCardScreen from './AddCardScreen';
-import IndividualDeckScreen from './IndividualDeckScreen';
-import QuizScreen from './QuizScreen';
+import { blueDark, blueLink, white } from '../utils/colors';
+import DeckList from './DeckList';
+import AddDeck from './AddDeck';
+import AddCard from './AddCard';
+import Deck from './Deck';
+import Quiz from './Quiz';
 
 const Tabs = TabNavigator({
     Decks: {
-        screen: DeckListScreen
+        screen: DeckList
     },
     Add: {
-        screen: AddDeckScreen,
+        screen: AddDeck,
         navigationOptions: { title: 'Add New Deck' }
     }
 },
     {
         navigationOptions: { header: null },
         tabBarOptions: {
-            activeTintColor: blueHighlight,
+            activeTintColor: blueLink,
             style: { backgroundColor: blueDark }
         }
     });
@@ -48,19 +48,18 @@ const NavigationConfig = () => {
 
 const MainNavigator = StackNavigator({
     Home: { screen: Tabs },
-    IndividualDeck: {
+    Deck: {
         headerStyle: { height: 20 },
-        screen: IndividualDeckScreen,
-        navigationOptions: { title: 'Home', ...navigationOptionsDefault }
+        screen: Deck,
+        navigationOptions: {  ...navigationOptionsDefault }
     },
     Quiz: {
-        screen: QuizScreen,
-        navigationOptions: { title: 'Card', ...navigationOptionsDefault }
+        screen: Quiz,
+        navigationOptions: { ...navigationOptionsDefault }
     },
     AddCard: {
-        screen: AddCardScreen,
-        navigationOptions: { title: 'Card', ...navigationOptionsDefault }
-
+        screen: AddCard,
+        navigationOptions: { ...navigationOptionsDefault }
     }
 },
     // Animated Fade Transition btween tabs

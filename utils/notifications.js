@@ -6,16 +6,8 @@ const NOTIFICATION_KEY = 'Mobile_Flashcards:notifications';
 function createNotification() {
   return {
     title: 'Take Quiz!',
-    body: "You did not finish a quiz today",
-    ios: {
-      sound: true
-    },
-    android: {
-      sound: true,
-      priority: 'high',
-      sticky: false,
-      vibrate: true,
-    }
+    body: "You did not take a quiz today",
+    android: { sound: true, priority: 'high', sticky: false, vibrate: true }
   }
 }
 
@@ -40,10 +32,7 @@ export function setLocalNotification () {
 
               Notifications.scheduleLocalNotificationAsync(
                 createNotification(),
-                {
-                  time: tomorrow,
-                  repeat: 'day',
-                }
+                { time: tomorrow, repeat: 'day' }
               )
 
               AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))

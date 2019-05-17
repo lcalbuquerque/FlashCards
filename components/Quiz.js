@@ -6,51 +6,39 @@ import { gray, blueDark } from '../utils/colors';
 import { setLocalNotification, clearLocalNotification } from '../utils/notifications';
 import Button from './Button';
 
-const NoCards = () => (
-    <View style={styles.noCards}>
-        <Text style={styles.noCardsText}>No card(s) in this deck.</Text>
-    </View>
-);
-
 const ResultScreen = (props) => (
     <View style={styles.resultCard}>
         <Text style={styles.resultCardText}>Total questions answered: {props.totalAnswered}</Text>
-        <Text style={styles.resultCardText}>Correct Answers: {props.correct}</Text>
-        <Button text='Restart' func={props.restart} />
-        <Button text='Go Back' func={props.goBack} />
+        <Text style={styles.resultCardText}>Correct Answers: {((props.correct / props.totalAnswered) * 100).toFixed(0)}%</Text>
+        <View style={styles.quizButtons}>
+            <Button text='Restart' func={props.restart} />
+            <Button text='Go Back' func={props.goBack} />
+        </View>
     </View>
 );
 
-const ShowQuestionOrAnswer = (props) => (
-    <TouchableWithoutFeedback onPress={props.toggle}>
+const ShowAnswer = (props) => (
+    <TouchableWithoutFeedback onPress={props.show}>
         <View>
-            {
-                props.current == 'question'
-                    ? <Text>Show Answer</Text>
-                    : <Text>Show Question</Text>
-            }
+            <Text>Show Answer</Text>
         </View>
     </TouchableWithoutFeedback>
 )
 
-class QuizScreen extends PureComponent {
+class Quiz extends PureComponent {
     state = {
         currentQuestion: 0,
         correctAnswers: 0,
-        show: 'question',
+        showAnswer: false,
         showResults: false
     };
 
-    showQuestionOrAnswer = () => {
-        const show = (this.state.show) === 'question'
-            ? 'answer'
-            : 'question'
-
-        this.setState({ show });
+    showAnswer = () => {
+        this.setState({ showAnswer: true });
     }
 
-    userAnswered(answerChosen, answer) {
-        if (answerChosen === answer) {
+    userAnswered(answerChosen) {
+        if (answerChosen === 'Correct') {
             this.setState({ correctAnswers: this.state.correctAnswers + 1 });
         }
         if (this.state.currentQuestion === this.props.questions.length - 1) {
@@ -58,14 +46,14 @@ class QuizScreen extends PureComponent {
         } else {
             this.setState({ currentQuestion: this.state.currentQuestion + 1 });
         }
-        this.setState({ show: 'question' });
+        this.setState({ showAnswer: false });
     }
 
     restartQuiz = () => {
         this.setState({
             currentQuestion: 0,
             correctAnswers: 0,
-            show: 'question',
+            showAnswer: false,
             showResults: false
         });
 
@@ -73,12 +61,11 @@ class QuizScreen extends PureComponent {
             .then(setLocalNotification)
     }
 
-    goBack = () => { this.props.navigation.dispatch(NavigationActions.back()); }
+    goBack = () => {
+        this.props.navigation.dispatch(NavigationActions.back());
+    }
 
     render() {
-        if (this.props.questions.length === 0) {
-            return <NoCards />
-        }
 
         if (this.state.showResults) {
             return (
@@ -92,20 +79,24 @@ class QuizScreen extends PureComponent {
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.quizCard}>
-                    <View style={styles.quizProgress}>
+                    <View>
                         <Text>Card {this.state.currentQuestion + 1}/{this.props.questions.length}</Text>
                     </View>
 
                     <Text style={styles.questionText}>{showingCard.question}</Text>
 
                     {
-                        this.state.show != 'question' &&
-                         <Text style={styles.answerText}>{showingCard.answer}</Text>
+                        this.state.showAnswer ?
+                            <View style={styles.answerView}>
+                                <Text style={styles.answerText}> Answer: {showingCard.answer}</Text>
+                            </View>
+                            :
+                            <ShowAnswer show={this.showAnswer} />
                     }
-                    <ShowQuestionOrAnswer toggle={this.showQuestionOrAnswer} current={this.state.show} />
-                    <View>
-                        <Button text='Correct' func={() => this.userAnswered('Correct', showingCard.answer)} />
-                        <Button text='Incorrect' func={() => this.userAnswered('Incorrect', showingCard.answer)} />
+
+                    <View style={styles.quizButtons}>
+                        <Button text='Correct' func={() => this.userAnswered('Correct')} />
+                        <Button text='Incorrect' func={() => this.userAnswered('Incorrect')} />
                     </View>
                 </View>
             </View>
@@ -136,10 +127,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 10
     },
-    quizProgress: {
+    quizButtons: {
         flexDirection: 'row',
-        paddingLeft: 200,
-        marginTop: -60,
     },
     quizCard: {
         flex: 1,
@@ -155,22 +144,34 @@ const styles = StyleSheet.create({
         elevation: 3
     },
     questionText: {
-        fontSize: 22,
+        fontSize: 18,
         marginBottom: 5,
         fontWeight: 'bold',
         textAlign: 'center'
     },
     answerText: {
-        fontSize: 26,
+        fontSize: 15,
         marginBottom: 5,
         fontWeight: 'bold',
         textAlign: 'center',
         color: blueDark
-    }
+    },
+    answerView: {
+        backgroundColor: gray,
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingLeft: 10,
+        paddingRight: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowOpacity: 1,
+        elevation: 3,
+        borderRadius: 5
+    },
 });
 
 function mapStateToProps(state, ownProps) {
     return { questions: state[ownProps.navigation.state.params.deck].questions };
 }
 
-export default connect(mapStateToProps)(QuizScreen);
+export default connect(mapStateToProps)(Quiz);

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { gray } from '../utils/colors';
 import Button from './Button';
 
-class IndividualDeckScreen extends Component {
+class Deck extends Component {
     navigate = (screen) => {
         this.props.navigation.navigate(screen, {
             deck: this.props.deck.title
@@ -20,7 +20,9 @@ class IndividualDeckScreen extends Component {
                     <Text style={styles.cardNumber}>This deck has {deck.questions.length} cards</Text>
                 </View>
                 <View style={styles.cards}>
-                    <Button text='Start Quiz' func={() => this.navigate('Quiz')} />
+                    {deck.questions.length > 0 &&
+                        <Button text='Start Quiz' func={() => this.navigate('Quiz')} />
+                    }
                     <Button text='Add Card' func={() => this.navigate('AddCard')} />
                 </View>
             </View>
@@ -57,4 +59,4 @@ function mapStateToProps(state, ownProps) {
     return { deck: state[ownProps.navigation.state.params.deck] };
 }
 
-export default connect(mapStateToProps)(IndividualDeckScreen);
+export default connect(mapStateToProps)(Deck);

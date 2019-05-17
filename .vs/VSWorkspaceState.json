@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\actions",
     "\\components",
     "\\utils"
   ],
-  "SelectedNode": "\\components\\DeckListScreen.js",
+  "SelectedNode": "\\README.md",
   "PreviewInSolutionExplorer": false
 }

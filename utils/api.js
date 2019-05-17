@@ -1,25 +1,27 @@
 import { AsyncStorage } from 'react-native';
 
 const STORAGE_KEY = 'Mobile_Flashcards:decks';
+//AsyncStorage.clear();
 
 const startingData = {
     React: {
         title: 'React',
         questions: [
-            { question: 'Is React a Javascript UI library?', answer: 'Correct' },
-            { question: 'Correct place to make Ajax requests is in a render method?', answer: 'Incorrect' }
+            { question: 'Is React a Javascript UI library?', answer: 'Yes' },
+            { question: 'Which css propertie you use to change layout to column ?', answer: 'flexDirection' }
         ]
     },
-    JavaScript: {
-        title: 'JavaScript',
+    Sports: {
+        title: 'Sports',
         questions: [
-            { question: 'Closure is a combination of a function and lexical environment within which that function was declared?', answer: 'Correct' },
-            { question: 'JavaScript is considered a weakly typed (or untyped) language?', answer: 'Correct' }
+            { question: 'Which country won Fifa World Cup in 2018 ?', answer: 'France' },
+            { question: 'In basketball, how many players play ?', answer: '5' },
+            { question: 'Which golf player won Olympic Games in Rio 2016 ?', answer: 'Tiger Woods' },
         ]
     }
 }
 
-// fetch all decks
+// Fetch all decks
 export function getDecks() {
     return AsyncStorage.getItem(STORAGE_KEY).then(result => {
         if (result !== null) {
@@ -31,13 +33,13 @@ export function getDecks() {
     });
 }
 
-// get single deck
+// Get single deck
 export function getDeck(title) {
     return getDecks()
         .then((decks) => decks[title]);
 }
 
-// save new deck
+// Save new deck
 export function saveDeckTitle(title) {
     const deckObj = { title, questions: [] };
     return AsyncStorage.mergeItem(STORAGE_KEY, JSON.stringify({
@@ -45,7 +47,7 @@ export function saveDeckTitle(title) {
     }));
 }
 
-// add a new card
+// Add a new card
 export function addCardToDeck(title, card) {
     return getDecks()
         .then((decks) => {

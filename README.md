@@ -17,7 +17,7 @@ Na pasta raiz do projeto, execute:
 # OBS
 Sistema desenvolvido e testado sobre emulador (Genymotion) Android S8
 
-#Style Guide
+# Style Guide
 
 Criação e alteração de cores devem ser efetuadas no arquivo \utils\colors.js e utilizadas conforme exemplo abaixo:
 

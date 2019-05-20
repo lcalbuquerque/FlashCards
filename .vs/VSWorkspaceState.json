@@ -1,10 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\actions",
     "\\components",
     "\\utils"
   ],
-  "SelectedNode": "\\README.md",
+  "SelectedNode": "\\utils\\api.js",
   "PreviewInSolutionExplorer": false
 }

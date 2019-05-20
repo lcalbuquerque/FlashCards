@@ -2,12 +2,10 @@ import React from 'react';
 import { View, StatusBar } from 'react-native';
 import { Constants } from 'expo';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import reducer from './store/reducers/reducers';
-import ReduxThunk from 'redux-thunk';
 import { setLocalNotification } from './utils/notifications';
 import { blueDark } from './utils/colors';
 import MainNavigator from './components/MainNavigator';
+import { store } from './store/configureStore'
 
 function AppStatusBar({ backgroundColor, ...props }) {
     return (
@@ -16,8 +14,6 @@ function AppStatusBar({ backgroundColor, ...props }) {
         </View>
     )
 }
-
-const store = createStore(reducer, applyMiddleware(ReduxThunk));
 
 export default class App extends React.Component {
     componentDidMount() {

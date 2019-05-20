@@ -12,7 +12,7 @@ Projeto contém as seguintes funcionalidades:
 Na pasta raiz do projeto, execute:
 - npm install
 - Abra preferencialmente um emulador Android
-- npm start
+- npm start (será aberta uma janela do Browser do servidor expo, onde poderá fazer deploy no device escolhido)
 
 # OBS
 Sistema desenvolvido e testado sobre emulador (Genymotion) Android S8
